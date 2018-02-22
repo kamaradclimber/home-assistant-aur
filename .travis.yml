@@ -1,6 +1,6 @@
 language: ruby
 before_install:
-- openssl aes-256-cbc -K $encrypted_0727dd33f742_key -iv $encrypted_0727dd33f742_iv
-  -in id_rsa.enc -out id_rsa -d
+- 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then openssl aes-256-cbc -K $encrypted_0727dd33f742_key -iv $encrypted_0727dd33f742_iv
+  -in id_rsa.enc -out id_rsa -d; fi'
 script:
-  - ./.travis-deploy.sh
+  - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./.travis-deploy.sh; fi'
