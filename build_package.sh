@@ -29,7 +29,7 @@ if [[ -n "$UPDATE" ]]; then
 fi
 
 # install 3 known aur dependencies
-sudo -u build "cd /tmp && yaourt -S --noconfirm --needed python-vincenty python-voluptuous python-aiohttp-cors python-astral"
+sudo -u build bash -c "cd /tmp && yaourt -S --noconfirm --needed python-vincenty python-voluptuous python-aiohttp-cors python-astral"
 
 
 sudo -u build makepkg -s -i --noconfirm
