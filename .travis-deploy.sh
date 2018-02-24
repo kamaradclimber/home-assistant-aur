@@ -5,6 +5,11 @@ if [[ "$TRAVIS_PULL_REQUEST" != "false" ]]; then
   exit 0
 fi
 
+if [[ "$TRAVIS_BRANCH" != "master" ]]; then
+  echo "Push not on master branch, skipping publication to aur"
+  exit 0
+fi
+
 mkdir -p ~/.ssh
 echo -e "Host aur.archlinux.org\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 mv id_rsa ~/.ssh/
