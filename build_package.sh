@@ -23,7 +23,7 @@ if [[ -n "$UPDATE" ]]; then
 
   sudo -u build makepkg --verifysource || echo "Will now update checksums"
 
-  sudo updpkgsums
+  sudo -u build updpkgsums
 
   sudo -u build makepkg --printsrcinfo > .SRCINFO
 fi
@@ -35,4 +35,16 @@ sudo -u build yaourt -S --noconfirm --needed python-vincenty python-voluptuous p
 sudo -u build makepkg -s -i --noconfirm
 echo "Package built!"
 
-sudo -u hass $(grep 'ExecStart' home-assistant.service | cut -d= -f2-)
+sudo -u hass /usr/bin/hass --config /var/lib/hass/ --daemon
+
+echo "Sleeping 60seconds..."
+echo "Checking errors"
+errors=$(cat /var/lib/hass/home-assistant.log | wc -l)
+
+if [[ "$errors" -gt "0" ]]; then
+  cat "Errors:"
+  cat /var/lib/hass/home-assistant.log
+  exit 1
+fi
+
+
