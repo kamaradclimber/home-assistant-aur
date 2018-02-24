@@ -1,6 +1,10 @@
 language: ruby
+services:
+  - docker
 before_install:
 - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then openssl aes-256-cbc -K $encrypted_0727dd33f742_key -iv $encrypted_0727dd33f742_iv
   -in id_rsa.enc -out id_rsa -d; fi'
+- docker pull base/archlinux
+- docker run --mount type=bind,source="$(pwd)",target=/app base/archlinux /bin/bash -c 'cd /app && ./build_package.sh'
 script:
   - 'if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./.travis-deploy.sh; fi'
